@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Analyzer - Powered by AI</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>UI Analyzer</h1>
+            <p class="subtitle">Get AI-powered analysis of your website's UI/UX</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="input-tabs">
+                    <button type="button" class="tab-button active" data-tab="file">Upload File</button>
+                    <button type="button" class="tab-button" data-tab="url">Enter URL</button>
+                </div>
+
+                <!-- File Upload Tab -->
+                <div class="tab-content active" id="file-tab">
+                    <div class="upload-box" id="dropZone">
+                        <img src="/static/upload-icon.svg" alt="Upload" id="uploadIcon">
+                        <p>Drag and drop your screenshot here or</p>
+                        <label for="fileInput" class="upload-button">Choose File</label>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                    </div>
+                </div>
+
+                <!-- URL Input Tab -->
+                <div class="tab-content" id="url-tab">
+                    <div class="url-input-container">
+                        <input type="text" id="urlInput" placeholder="Enter website URL (e.g., https://example.com)">
+                        <button type="button" class="load-button" id="loadUrlButton">Load Preview</button>
+                    </div>
+                </div>
+
+                <div class="preview-container" hidden>
+                    <img id="imagePreview" alt="Preview">
+                    <button type="button" class="analyze-button" id="analyzeButton">Analyze UI</button>
+                </div>
+            </div>
+
+            <div class="results-section" hidden>
+                <div class="loading-spinner" hidden></div>
+                <div class="analysis-results">
+                    <h2>Analysis Results</h2>
+                    <div class="results-content"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
