@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y \
     libatk1.0-0 \
     libgles2-mesa \
     libfontconfig1 \
+    libgtk-3-0 \
+    libgdk-3-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
