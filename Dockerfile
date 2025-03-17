@@ -1,16 +1,10 @@
-# Use a base image with Python installed
-FROM python:3.9-slim
+# Use the full Python image (instead of slim) to reduce potential package missing issues
+FROM python:3.9-buster
 
-# Install system dependencies required by playwright
+# Install system dependencies required by Playwright
 RUN apt-get update && apt-get install -y \
-    libgtk-4-dev \
-    libgraphene-1.0-0 \
-    libgstreamer-gl1.0-0 \
-    libgstreamer-plugins-bad1.0-0 \
-    libenchant-2-2 \
-    libsecret-1-0 \
-    libmanette-0.2-0 \
-    libgles2-mesa \
+    libgtk-3-0 \
+    libgdk-3-0 \
     libnss3 \
     libxss1 \
     libatk-bridge2.0-0 \
@@ -26,11 +20,8 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libpangocairo-1.0-0 \
     libpango-1.0-0 \
-    libatk1.0-0 \
-    libgles2-mesa \
     libfontconfig1 \
-    libgtk-3-0 \
-    libgdk-3-0 \
+    libgles2-mesa \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
@@ -42,14 +33,14 @@ COPY . /app
 # Ensure the requirements.txt file is copied correctly
 COPY requirements.txt /app/
 
-# Copy the current dependencies from requirements.txt
+# Install the Python dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Playwright browsers
 RUN python -m playwright install
 
-# Expose the port that render expects
+# Expose the port that Render expects
 EXPOSE 8000
 
-# Command to run app using the deployment command
+# Command to run your application using the deployment command provided by Render
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
