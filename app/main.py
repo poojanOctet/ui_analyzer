@@ -78,44 +78,44 @@ def is_valid_url(url: str) -> bool:
 async def root():
     return FileResponse(os.path.join(static_dir, 'index.html'))
 
-def sync_get_playwright_screenshot(url):
-    print(f"Capturing screenshot for: {url}")
-    try:
-        with sync_playwright() as p:
-            print("Launching browser...")
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
-            print("navigating to URL...")
-            page.goto(url)
-            page.wait_for_load_state('networkidle')
-            print("Taking screenshot...")
-            screenshot = page.screenshot(full_page=True, type='png')
-            # page.close()
-            browser.close()
-            return screenshot
-    except Exception as e:
-        print(f"Playwright error: {e}")
-        raise
-
-
-async def get_playwright_screenshot(url):
-    loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(None, sync_get_playwright_screenshot, url)
-
-# async def get_playwright_screenshot(url: str):
-#     async with async_playwright() as p:
-#         browser = await p.chromium.launch(headless=True)
-#         try:
-#             page = await browser.new_page()
-#             response = await page.goto(url, timeout=30000)
-#             print('response', response)
-#             if response is None or not response.ok:
-#                 raise Exception(f"Failed to load {url}, status: {response.status}")
-#             await page.wait_for_timeout(3000)
-#             screenshot = await page.screenshot(full_page=True, type='png')
+# def sync_get_playwright_screenshot(url):
+#     print(f"Capturing screenshot for: {url}")
+#     try:
+#         with sync_playwright() as p:
+#             print("Launching browser...")
+#             browser = p.chromium.launch(headless=True)
+#             page = browser.new_page()
+#             print("navigating to URL...")
+#             page.goto(url)
+#             page.wait_for_load_state('networkidle')
+#             print("Taking screenshot...")
+#             screenshot = page.screenshot(full_page=True, type='png')
+#             # page.close()
+#             browser.close()
 #             return screenshot
-#         finally:
-#             await browser.close()
+#     except Exception as e:
+#         print(f"Playwright error: {e}")
+#         raise
+
+
+# async def get_playwright_screenshot(url):
+#     loop = asyncio.get_event_loop()
+#     return await loop.run_in_executor(None, sync_get_playwright_screenshot, url)
+
+async def get_playwright_screenshot(url: str):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        try:
+            page = await browser.new_page()
+            response = await page.goto(url, timeout=30000)
+            print('response', response)
+            if response is None or not response.ok:
+                raise Exception(f"Failed to load {url}, status: {response.status}")
+            await page.wait_for_timeout(3000)
+            screenshot = await page.screenshot(full_page=True, type='png')
+            return screenshot
+        finally:
+            await browser.close()
 
 
 @app.post("/analyze-ui")
