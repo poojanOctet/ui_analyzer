@@ -79,15 +79,23 @@ async def root():
     return FileResponse(os.path.join(static_dir, 'index.html'))
 
 def sync_get_playwright_screenshot(url):
-    with sync_playwright() as p:
-        browser = p.firefox.launch(headless=True)
-        page = browser.new_page()
-        page.goto(url)
-        page.wait_for_load_state('networkidle')
-        screenshot = page.screenshot(full_page=True, type='png')
-        # page.close()
-        browser.close()
-        return screenshot
+    print(f"Capturing screenshot for: {url}")
+    try:
+        with sync_playwright() as p:
+            print("Launching browser...")
+            browser = p.chromiun.launch(headless=True)
+            page = browser.new_page()
+            print("navigating to URL...")
+            page.goto(url)
+            page.wait_for_load_state('networkidle')
+            print("Taking screenshot...")
+            screenshot = page.screenshot(full_page=True, type='png')
+            # page.close()
+            browser.close()
+            return screenshot
+    except Exception as e:
+        print(f"Playwright error: {e}")
+        raise
 
 
 async def get_playwright_screenshot(url):
