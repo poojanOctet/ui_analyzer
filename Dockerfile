@@ -34,6 +34,12 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
+# Copy the current directory's contents into the container at /app
+COPY . /app
+
+# Ensure the requirements.txt file is copied correctly
+COPY requirements.txt /app/
+
 # Copy the current dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
