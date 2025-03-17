@@ -17,10 +17,10 @@ import base64, os, asyncio, sys
     # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 # Force legacy event loop policy on Windows
-if sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# if sys.platform == "win32":
+#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 load_dotenv()
 app = FastAPI()
@@ -84,7 +84,7 @@ def sync_get_playwright_screenshot(url):
         page = browser.new_page()
         page.goto(url)
         page.wait_for_load_state('networkidle')
-        screenshot = page.screenshot(full_page=True, type='test.png')
+        screenshot = page.screenshot(full_page=True, type='png')
         # page.close()
         browser.close()
         return screenshot
