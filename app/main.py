@@ -103,7 +103,9 @@ async def root():
 #     return await loop.run_in_executor(None, sync_get_playwright_screenshot, url)
 
 async def get_playwright_screenshot(url: str):
+    print(f"Capturing screenshot for: {url}")
     async with async_playwright() as p:
+        print("Launching browser...")
         browser = await p.chromium.launch(headless=True)
         try:
             page = await browser.new_page()
@@ -112,6 +114,7 @@ async def get_playwright_screenshot(url: str):
             if response is None or not response.ok:
                 raise Exception(f"Failed to load {url}, status: {response.status}")
             await page.wait_for_timeout(3000)
+            print("Taking screenshot...")
             screenshot = await page.screenshot(full_page=True, type='png')
             return screenshot
         finally:
