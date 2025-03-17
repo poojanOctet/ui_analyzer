@@ -49,6 +49,36 @@
 
 
 
+# # Use Playwright's official Docker image, which includes necessary dependencies
+# FROM mcr.microsoft.com/playwright:v1.48.0-focal
+
+# # Install Python & pip
+# RUN apt-get update && apt-get install -y \
+#     python3 \
+#     python3-pip \
+#     python3-venv \
+#     && rm -rf /var/lib/apt/lists/*
+
+# # Set the working directory inside the container
+# WORKDIR /app
+
+# # Copy the current directory's contents into the container at /app
+# COPY . /app
+
+# # Ensure the requirements.txt file is copied correctly
+# COPY requirements.txt /app/
+
+# # Install the Python dependencies
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# # Expose the port that Render expects
+# EXPOSE 8000
+
+# # Command to run the app using the deployment command
+# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+
+
 # Use Playwright's official Docker image, which includes necessary dependencies
 FROM mcr.microsoft.com/playwright:v1.48.0-focal
 
@@ -62,14 +92,20 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory's contents into the container at /app
-COPY . /app
-
 # Ensure the requirements.txt file is copied correctly
 COPY requirements.txt /app/
 
+# Fix pyee version issue before installing other dependencies
+RUN pip install --no-cache-dir pyee==12.0.0
+
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the current directory's contents into the container at /app
+COPY . /app
+
+# Ensure playwright browsers are installed
+RUN playwright install --with-deps
 
 # Expose the port that Render expects
 EXPOSE 8000

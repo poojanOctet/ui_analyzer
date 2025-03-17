@@ -83,7 +83,7 @@ def sync_get_playwright_screenshot(url):
     try:
         with sync_playwright() as p:
             print("Launching browser...")
-            browser = p.chromiun.launch(headless=True)
+            browser = p.chromium.launch(headless=True)
             page = browser.new_page()
             print("navigating to URL...")
             page.goto(url)
