@@ -50,7 +50,7 @@
 
 
 # Use Playwright's official Docker image, which includes necessary dependencies
-FROM mcr.microsoft.com/playwright:v1.24.0-focal
+FROM mcr.microsoft.com/playwright:v1.48.0-focal
 
 # Install Python & pip
 RUN apt-get update && apt-get install -y \
