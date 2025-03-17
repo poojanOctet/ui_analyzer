@@ -80,7 +80,7 @@ async def root():
 
 def sync_get_playwright_screenshot(url):
     with sync_playwright() as p:
-        browser = p.firefox.launch()
+        browser = p.firefox.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
         page.wait_for_load_state('networkidle')
@@ -225,6 +225,6 @@ async def get_screenshot(url: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error capturing screenshot: {str(e)}")
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
