@@ -52,6 +52,13 @@
 # Use Playwright's official Docker image, which includes necessary dependencies
 FROM mcr.microsoft.com/playwright:v1.24.0-focal
 
+# Install Python & pip
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory inside the container
 WORKDIR /app
 
